@@ -27,6 +27,18 @@ jobs:
         run: |
           mvn -B package --file pom.xml
 
+      - name: Archive JAR
+        uses: actions/upload-artifact@v3
+        with:
+          name: jar-file
+          path: /target/welcome-app.jar
+
+      - name: Archive Dockerfile
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-file
+          path: Dockerfile
+
   deploy:
     needs: [maven-build]
     if: ${{ github.ref == 'refs/heads/master' }}
@@ -34,6 +46,8 @@ jobs:
     steps:
 #      - name: Checkout Repository
 #        uses: actions/checkout@v4
+      - name: Download dependencies
+        uses: actions/download-artifact@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
