@@ -47,7 +47,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            Project <b>${{ github.repository }}</b> build error
+            🔴 Project <b>${{ github.repository }}</b> build error
         
 
   deploy:
@@ -115,7 +115,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            Project <b>${{ github.repository }}</b> deploy error
+            🔴 Project <b>${{ github.repository }}</b> deploy error
 
       - name: Good job!
         if: ${{ success() }}
@@ -125,4 +125,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            Project <b>${{ github.repository }}</b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>
+            🟢 Project <b>${{ github.repository }}</b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>
