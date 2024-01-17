@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jar-file
-          path: /target/welcome-app.jar
+          path: target/welcome-app.jar
 
       - name: Archive Dockerfile
         uses: actions/upload-artifact@v3
