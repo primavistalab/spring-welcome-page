@@ -7,18 +7,20 @@ on:
 # я же знаю имя контейнера (без тега) его по имени можно останавливать и удалять, а запускать уже из имеджа по известному тегу
 jobs:
   maven-build:
-    - name: Checking out the repository
-      uses: actions/checkout@v4
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checking out the repository
+        uses: actions/checkout@v4
 
-    - name: Setup JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'liberica'
-        java-version: '17'
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'liberica'
+          java-version: '17'
 
-    - name: Building with Maven
-      run: |
-        mvn -B package --file pom.xml
+      - name: Building with Maven
+        run: |
+          mvn -B package --file pom.xml
 
 #  deploy:
 #    needs: [maven-build]
