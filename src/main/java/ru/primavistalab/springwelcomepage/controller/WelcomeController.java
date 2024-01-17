@@ -14,7 +14,7 @@ public class WelcomeController {
     @GetMapping("/")
     public String welcome(String params) {
         return String.format("""
-                <h2>Welcome</h2><br>
+                <h2>Welcome App</h2><br>
                 <strong>params</strong>=%s<br>
                 <strong>version</strong>=%s<br>
                 <strong>datetime</strong>=%s<br>
