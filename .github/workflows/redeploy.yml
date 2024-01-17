@@ -39,6 +39,17 @@ jobs:
           name: docker-file
           path: Dockerfile
 
+      - name: The job has failed
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            Project <b>${{ github.repository }}</b> build error
+        
+
   deploy:
     needs: [maven-build]
     if: ${{ github.ref == 'refs/heads/master' }}
@@ -95,3 +106,27 @@ jobs:
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             docker run -d --name ${{ env.CONTAINER_NAME }} -p ${{ env.APP_WEB_PORT }}:${{ env.APP_WEB_PORT }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: The job has failed
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            Project <b>${{ github.repository }}</b> deploy error            
+
+  telegram-notification:
+    needs: [deploy]
+    runs-on: ubuntu-22.04
+    if: ${{ success() }}
+    steps:
+      - name: Send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            Project <b>${{ github.repository }}</b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>             
