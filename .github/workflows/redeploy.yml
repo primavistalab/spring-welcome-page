@@ -6,8 +6,9 @@ on:
 
 # я же знаю имя контейнера (без тега) его по имени можно останавливать и удалять, а запускать уже из имеджа по известному тегу
 env:
-#  DEPLOY_PATH: /var/app/eeecatalog
   IMAGE_TAG: master-${{ github.run_number }}
+  IMAGE_NAME: jzs175/spring-welcome-app
+  CONTAINER_NAME: spring-welcome-app
 
 jobs:
   maven-build:
@@ -44,7 +45,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: jzs175/spring-welcome-app
+          images: ${{ env.IMAGE_NAME }}
           tags: |
             ${{ env.IMAGE_TAG }}            
 
@@ -66,7 +67,7 @@ jobs:
           port: ${{ secrets.SSH_PROD_PORT }}
           script_stop: true
           script: |
-            docker stop spring-welcome-app || true
-            docker rm spring-welcome-app || true
-            docker pull jzs175/spring-welcome-app:${{ env.IMAGE_TAG }}
-            docker run -d --name spring-welcome-app jzs175/spring-welcome-app:${{ env.IMAGE_TAG }}
+            docker stop ${{ env.CONTAINER_NAME }} || true
+            docker rm ${{ env.CONTAINER_NAME }} || true
+            docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ env.CONTAINER_NAME }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
