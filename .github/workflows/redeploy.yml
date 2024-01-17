@@ -9,6 +9,7 @@ env:
   IMAGE_TAG: master-${{ github.run_number }}
   IMAGE_NAME: jzs175/spring-welcome-app
   CONTAINER_NAME: spring-welcome-app
+  APP_WEB_PORT: 7001
 
 jobs:
   maven-build:
@@ -44,8 +45,6 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-22.04
     steps:
-#      - name: Checkout Repository
-#        uses: actions/checkout@v4
       - name: Download dependencies
         uses: actions/download-artifact@v3
         with:
@@ -96,4 +95,4 @@ jobs:
             docker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            docker run -d --name ${{ env.CONTAINER_NAME }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ env.CONTAINER_NAME }} -p ${{ APP_WEB_PORT }}:${{ APP_WEB_PORT }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
