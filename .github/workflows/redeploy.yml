@@ -119,12 +119,10 @@ jobs:
 
       - name: Good job!
         if: ${{ success() }}
-        steps:
-          - name: Send telegram message
-            uses: appleboy/telegram-action@master
-            with:
-              to: ${{ secrets.TELEGRAM_TO }}
-              token: ${{ secrets.TELEGRAM_TOKEN }}
-              format: html
-              message: |
-                Project <b>${{ github.repository }}</b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>               
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            Project <b>${{ github.repository }}</b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>
