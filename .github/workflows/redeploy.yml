@@ -1,0 +1,51 @@
+name: Deploy Java Application
+
+on:
+  push:
+    branches: [ "develop", "master" ]
+
+# я же знаю имя контейнера (без тега) его по имени можно останавливать и удалять, а запускать уже из имеджа по известному тегу
+jobs:
+  maven-build:
+    - name: Checking out the repository
+      uses: actions/checkout@v4
+
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'liberica'
+        java-version: '17'
+
+    - name: Building with Maven
+      run: |
+        mvn -B package --file pom.xml
+
+#  deploy:
+#    needs: [maven-build]
+#    if: ${{ github.ref == 'refs/heads/master' }}
+#    runs-on: ubuntu-22.04
+#
+#
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Docker
+#        uses: actions/setup-docker@v2
+#
+#      - name: Build and Push Docker Image
+#        run: |
+#          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/eee-catalog-mysql5:$GITHUB_SHA .
+#          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+#          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/eee-catalog-mysql5:$GITHUB_SHA
+#
+#      - name: Deploy to Server
+#        run: |
+#          docker stop eee-catalog-mysql5 || true
+#          docker rm eee-catalog-mysql5 || true
+#          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/eee-catalog-mysql5:$GITHUB_SHA
+#          docker run -d --name eee-catalog-mysql5 ${{ secrets.DOCKER_HUB_USERNAME }}/eee-catalog-mysql5:$GITHUB_SHA
+#
+#        env:
+#          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+#          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
