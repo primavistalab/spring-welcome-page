@@ -65,7 +65,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: docker-file
-          path: .
+          path: /
       
       - name: LS
         run: ls -l
