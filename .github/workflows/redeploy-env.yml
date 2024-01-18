@@ -1,0 +1,27 @@
+name: EnvTest
+
+on:
+  push:
+    branches:
+      - '**'
+
+env:
+  IMAGE_TAG: master-${{ github.run_number }}
+  IMAGE_NAME: jzs175/spring-welcome-app
+  CONTAINER_NAME: spring-welcome-app
+  ENV_SCRIPT: ./env/env-${{ github.ref_name }}.sh
+
+jobs:
+  maven-build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checking out the repository
+        uses: actions/checkout@v4
+
+      - name: Setting up the environment variables
+        run: |
+          echo ${{ env.ENV_SCRIPT }}
+          source ${{ env.ENV_SCRIPT }}
+          echo "-----------------"
+          echo ${{ env.EXT_SERVER_PORT }}
+          echo ${{ env.EXT_API_ROOT }}
