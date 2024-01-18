@@ -20,5 +20,5 @@ jobs:
           echo ${{ env.ENV_SCRIPT }}
           source ${{ env.ENV_SCRIPT }}
           echo "-----------------"
-          echo EXT_SERVER_PORT
-          echo EXT_API_ROOT
+          echo $EXT_SERVER_PORT
+          echo $EXT_API_ROOT
