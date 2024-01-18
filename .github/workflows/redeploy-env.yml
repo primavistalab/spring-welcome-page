@@ -21,6 +21,7 @@ jobs:
           path: ${{ env.ENV_SCRIPT }}
           log-variables: true
           export-variables: true
+          keys-case: upper
 
       - name: Check variables
         run: |
