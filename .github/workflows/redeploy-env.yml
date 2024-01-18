@@ -29,16 +29,16 @@ jobs:
           echo ${{ env.ENV_SCRIPT }}
           source ${{ env.ENV_SCRIPT }}
           echo "-----------------"
-          echo $EXT_SERVER_PORT
-          echo $EXT_API_ROOT
-          echo ${{ steps.dotenv.outputs.EXT_SERVER_PORT }}
-          echo ${{ steps.dotenv.outputs.EXT_API_ROOT }}          
+          echo $APP_SERVER_PORT
+          echo $APP_VERSION
+          echo ${{ steps.dotenv.outputs.APP_SERVER_PORT }}
+          echo ${{ steps.dotenv.outputs.APP_VERSION }}          
 
 #        run: |
 #          echo ${{ env.ENV_SCRIPT }}
 #          source ${{ env.ENV_SCRIPT }}
 #          echo "-----------------"
-#          echo $EXT_SERVER_PORT
-#          echo $EXT_API_ROOT
-#          echo ${{ env.EXT_SERVER_PORT }}
-#          echo ${{ env.EXT_API_ROOT }}
+#          echo $APP_SERVER_PORT
+#          echo $APP_VERSION
+#          echo ${{ env.APP_SERVER_PORT }}
+#          echo ${{ env.APP_VERSION }}
