@@ -104,7 +104,7 @@ jobs:
           port: ${{ secrets.SSH_PROD_PORT }}
           script_stop: true
           script: |
-            docker stop ${{ env.CONTAINER_NAME }} || true
+            doc ker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             docker run -d --name ${{ env.CONTAINER_NAME }} -p ${{ env.APP_WEB_PORT }}:${{ env.APP_WEB_PORT }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
