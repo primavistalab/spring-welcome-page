@@ -126,4 +126,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            🟢 Project <b>${{ github.repository }}</b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>
+            🟢 Project <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a> has been deployed on prod with tag=${{ env.IMAGE_TAG }}
