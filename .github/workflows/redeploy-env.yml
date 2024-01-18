@@ -16,11 +16,27 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setting up the environment variables
+        uses: falti/dotenv-action@v1.0.4
+        with:
+          path: ${{ ENV_SCRIPT }}
+          log-variables: true
+          export-variables: true
+
+      - name: Check variables
         run: |
           echo ${{ env.ENV_SCRIPT }}
           source ${{ env.ENV_SCRIPT }}
           echo "-----------------"
           echo $EXT_SERVER_PORT
           echo $EXT_API_ROOT
-          echo ${{ env.EXT_SERVER_PORT }}
-          echo ${{ env.EXT_API_ROOT }}
+          echo ${{ steps.dotenv.outputs.EXT_SERVER_PORT }}
+          echo ${{ steps.dotenv.outputs.EXT_API_ROOT }}          
+
+#        run: |
+#          echo ${{ env.ENV_SCRIPT }}
+#          source ${{ env.ENV_SCRIPT }}
+#          echo "-----------------"
+#          echo $EXT_SERVER_PORT
+#          echo $EXT_API_ROOT
+#          echo ${{ env.EXT_SERVER_PORT }}
+#          echo ${{ env.EXT_API_ROOT }}
