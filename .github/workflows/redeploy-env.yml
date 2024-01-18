@@ -18,7 +18,7 @@ jobs:
       - name: Setting up the environment variables
         uses: falti/dotenv-action@v1.0.4
         with:
-          path: ${{ ENV_SCRIPT }}
+          path: ${{ env.ENV_SCRIPT }}
           log-variables: true
           export-variables: true
 
