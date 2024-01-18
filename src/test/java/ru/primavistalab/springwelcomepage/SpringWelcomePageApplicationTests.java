@@ -9,7 +9,7 @@ class SpringWelcomePageApplicationTests {
 
     @Test
     void contextLoads() {
-        Assertions.assertEquals("AAA", "AAA");
+        Assertions.assertEquals("AAA2", "AAA");
     }
 
 }

@@ -52,7 +52,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            🔴 Project <b>${{ github.repository }}</b> build error
+            🔴 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> build error
 
   deploy:
     needs: [maven-build]
@@ -116,7 +116,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
           message: |
-            🔴🔴 Project <b>${{ github.repository }}</b> deploy error
+            🔴🔴 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> deploy error 
 
       - name: Good job!
         if: ${{ success() }}
@@ -125,5 +125,6 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: html
+          disable_web_page_preview: true
           message: |
-            🟢 Project <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a> has been deployed on prod with tag=${{ env.IMAGE_TAG }}
+            🟢 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>
