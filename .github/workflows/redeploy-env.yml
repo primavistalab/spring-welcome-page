@@ -22,5 +22,5 @@ jobs:
           echo "-----------------"
           echo $EXT_SERVER_PORT
           echo $EXT_API_ROOT
-          echo ${{ env.$EXT_SERVER_PORT }}
-          echo ${{ env.$EXT_API_ROOT }}
+          echo ${{ env.EXT_SERVER_PORT }}
+          echo ${{ env.EXT_API_ROOT }}
