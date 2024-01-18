@@ -6,10 +6,7 @@ on:
       - '**'
 
 env:
-  IMAGE_TAG: master-${{ github.run_number }}
-  IMAGE_NAME: jzs175/spring-welcome-app
-  CONTAINER_NAME: spring-welcome-app
-  ENV_SCRIPT: ./env/env-${{ github.ref_name }}.sh
+  ENV_SCRIPT: env/env-${{ github.ref_name }}.sh
 
 jobs:
   maven-build:
