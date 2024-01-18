@@ -104,7 +104,7 @@ jobs:
           port: ${{ secrets.SSH_PROD_PORT }}
           script_stop: true
           script: |
-            doc ker stop ${{ env.CONTAINER_NAME }} || true
+            docker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             docker run -d --name ${{ env.CONTAINER_NAME }} -p ${{ env.APP_WEB_PORT }}:${{ env.APP_WEB_PORT }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
@@ -129,4 +129,4 @@ jobs:
           format: html
           disable_web_page_preview: true
           message: |
-            🟢 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> has been deployed on prod with <b>tag=${{ env.IMAGE_TAG }}</b>
+            🟢 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> has been build and deployed on <b>PROD</b> successfully (docker tag=${{ env.IMAGE_TAG }})
