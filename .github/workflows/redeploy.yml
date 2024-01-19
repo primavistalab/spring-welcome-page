@@ -10,6 +10,7 @@ env:
   IMAGE_NAME: jzs175/spring-welcome-app
   CONTAINER_NAME: spring-welcome-app
   ENV_SCRIPT: env/env-${{ github.ref_name }}.sh
+  ENV_DEPLOY_PATH: /var/app/welcome-app
 
 jobs:
   maven-build:
@@ -84,6 +85,17 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Upload the .env file on remote host
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_PROD_HOST }}
+          username: ${{ secrets.SSH_PROD_USERNAME }}
+          password: ${{ secrets.SSH_PROD_PASSWORD }}
+          port: ${{ secrets.SSH_PROD_PORT }}
+          source: ${{ env.ENV_SCRIPT }}
+          target: ${{ env.ENV_DEPLOY_PATH }}
+          overwrite: true
+
       - name: Redeploy Docker
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -93,15 +105,13 @@ jobs:
           port: ${{ secrets.SSH_PROD_PORT }}
           script_stop: true
           script: |
-            pwd
-            ls -R ${{ github.workspace }}
-            cat ${{ env.ENV_SCRIPT }}
+            cat ${{ env.ENV_DEPLOY_PATH }}
             echo "\n-----------------\n"
-            source ${{ env.ENV_SCRIPT }}
+            source ${{ env.ENV_DEPLOY_PATH }}
             docker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            docker run -d --name ${{ env.CONTAINER_NAME }} --env-file ${{ env.ENV_SCRIPT }} -p $APP_SERVER_PORT_EXT:$APP_SERVER_PORT_INT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ env.CONTAINER_NAME }} --env-file ${{ env.ENV_DEPLOY_PATH }} -p $APP_SERVER_PORT_EXT:$APP_SERVER_PORT_INT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: The deploy has failed
         if: ${{ failure() }}
