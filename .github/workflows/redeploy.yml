@@ -11,7 +11,7 @@ env:
   CONTAINER_NAME: spring-welcome-app
   ENV_SCRIPT: env/env-${{ github.ref_name }}.sh
   ENV_DEPLOY_PATH: /var/app/welcome-app
-  ENV_DEPLOY_SCRIPT: ${{ env.ENV_DEPLOY_PATH }}/env-${{ github.ref_name }}.sh
+  ENV_DEPLOY_SCRIPT: /var/app/welcome-app/env-${{ github.ref_name }}.sh
 
 jobs:
   maven-build:
