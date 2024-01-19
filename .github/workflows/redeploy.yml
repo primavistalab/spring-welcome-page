@@ -9,7 +9,7 @@ env:
   IMAGE_TAG: master-${{ github.run_number }}
   IMAGE_NAME: jzs175/spring-welcome-app
   CONTAINER_NAME: spring-welcome-app
-  APP_WEB_PORT: 7001
+  ENV_SCRIPT: env/env-${{ github.ref_name }}.sh
 
 jobs:
   maven-build:
@@ -95,6 +95,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Setup the environment variables
+        run: |
+          cat ${{ env.ENV_SCRIPT }}
+          echo "-----------------"
+          source ${{ env.ENV_SCRIPT }}
+          echo "-----------------"
+
       - name: Redeploy Docker
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -107,7 +114,7 @@ jobs:
             docker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            docker run -d --name ${{ env.CONTAINER_NAME }} -p ${{ env.APP_WEB_PORT }}:${{ env.APP_WEB_PORT }} ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ env.CONTAINER_NAME }} --env-file ${{ env.ENV_SCRIPT }} -p $APP_SERVER_PORT_EXT:$APP_SERVER_PORT_INT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: The deploy has failed
         if: ${{ failure() }}
