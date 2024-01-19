@@ -24,7 +24,7 @@ jobs:
           distribution: 'liberica'
           java-version: '17'
 
-      - name: Building with Maven
+      - name: Building and Test with Maven
         run: |
           mvn -B package --file pom.xml
 
@@ -34,14 +34,6 @@ jobs:
         with:
           name: jar-file
           path: target/welcome-app.jar
-          retention-days: 1
-
-      - name: Push the Dockerfile to local storage
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: docker-file
-          path: Dockerfile
           retention-days: 1
 
       - name: The build has failed
@@ -60,17 +52,21 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Download dependencies
+      - name: Checking out the repository
+        uses: actions/checkout@v4
+
+      - name: Download built JAR-artifact
         uses: actions/download-artifact@v3
         with:
           name: jar-file
           path: ./target
 
-      - name: Download dependencies
-        uses: actions/download-artifact@v3
-        with:
-          name: docker-file
-          path: .
+      - name: Setup the environment variables
+        run: |
+          cat ${{ env.ENV_SCRIPT }}
+          echo "-----------------"
+          source ${{ env.ENV_SCRIPT }}
+          echo "-----------------"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -94,13 +90,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Setup the environment variables
-        run: |
-          cat ${{ env.ENV_SCRIPT }}
-          echo "-----------------"
-          source ${{ env.ENV_SCRIPT }}
-          echo "-----------------"
 
       - name: Redeploy Docker
         uses: appleboy/ssh-action@v1.0.3
