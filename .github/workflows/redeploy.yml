@@ -94,7 +94,7 @@ jobs:
           script_stop: true
           script: |
             pwd
-            ls -R
+            ls -R ${{ github.workspace }}
             cat ${{ env.ENV_SCRIPT }}
             echo "\n-----------------\n"
             source ${{ env.ENV_SCRIPT }}
