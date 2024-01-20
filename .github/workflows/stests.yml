@@ -14,9 +14,7 @@ jobs:
           ALLMYSECRETS: ${{ toJSON(secrets) }}
           ALLMYVARS: ${{ toJSON(vars) }}
         run: |
-          echo "$ALLMYSECRETS"
-          echo "$ALLMYVARS"
-          echo "$ALLMYSECRETS" > s.txt
-          cat s.txt
+          echo "$ALLMYSECRETS"          
+          echo "$ALLMYSECRETS" | sed 's/./& /g'
         shell: bash
 
