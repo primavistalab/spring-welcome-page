@@ -1,0 +1,10 @@
+server:
+  port: ${TARGET_PORT:7000}
+
+version: ${APP_VERSION:"n/d"}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: [ "prometheus" ]

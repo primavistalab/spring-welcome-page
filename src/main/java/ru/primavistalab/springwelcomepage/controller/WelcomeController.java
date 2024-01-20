@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 public class WelcomeController {
     @Value("${version}")
     private String version;
-    @Value("${secret}")
-    private String secret;
 
     @GetMapping("/")
     public String welcome(String params) {
@@ -19,8 +17,7 @@ public class WelcomeController {
                 <h2>Welcome App 2</h2><br>
                 <strong>params</strong>=%s<br>
                 <strong>version</strong>=%s<br>
-                <strong>secret</strong>=%s<br>
                 <strong>datetime</strong>=%s<br>
-                """, params, version, secret, LocalDateTime.now());
+                """, params, version, LocalDateTime.now());
     }
 }
