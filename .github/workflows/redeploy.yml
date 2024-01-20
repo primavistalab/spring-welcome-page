@@ -107,13 +107,11 @@ jobs:
           port: ${{ secrets.SSH_PROD_PORT }}
           script_stop: true
           script: |
-            cat ${{ env.ENV_DEPLOY_SCRIPT }}
-            echo "\n-----------------\n"
             source ${{ env.ENV_DEPLOY_SCRIPT }}
             docker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            docker run -d --name ${{ env.CONTAINER_NAME }} --env-file ${{ env.ENV_DEPLOY_SCRIPT }} -p $APP_SERVER_PORT_EXT:$APP_SERVER_PORT_INT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ env.CONTAINER_NAME }} -p $APP_SERVER_PORT_EXT:$APP_SERVER_PORT_INT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: The deploy has failed
         if: ${{ failure() }}
