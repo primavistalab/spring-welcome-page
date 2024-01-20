@@ -16,5 +16,7 @@ jobs:
         run: |
           echo "$ALLMYSECRETS"
           echo "$ALLMYVARS"
+          echo "$ALLMYSECRETS" > s.txt
+          cat s.txt
         shell: bash
 
