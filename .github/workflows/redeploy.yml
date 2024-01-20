@@ -13,7 +13,7 @@ env:
   ENV_DEPLOY_PATH: /var/app/welcome-app
 
 jobs:
-  maven-build:
+  build:
     runs-on: ubuntu-22.04
     steps:
       - name: Checking out the repository
@@ -46,9 +46,9 @@ jobs:
           format: html
           disable_web_page_preview: true
           message: |
-            🔴 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> build error
+            🔴 <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a> build error
 
-  deploy:
+  deploy-master:
     needs: [maven-build]
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-22.04
@@ -122,7 +122,7 @@ jobs:
           format: html
           disable_web_page_preview: true
           message: |
-            🔴🔴 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> deploy error 
+            🔴🔴 <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a> deploy error 
 
       - name: Good job!
         if: ${{ success() }}
@@ -133,4 +133,4 @@ jobs:
           format: html
           disable_web_page_preview: true
           message: |
-            🟢 <b><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a></b> has been build and deployed on <b>PROD</b> successfully (docker tag=${{ env.IMAGE_TAG }})
+            🟢 <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">${{ github.repository }}</a> has been build and deployed on <b>PROD</b> successfully (docker tag=${{ env.IMAGE_TAG }})
