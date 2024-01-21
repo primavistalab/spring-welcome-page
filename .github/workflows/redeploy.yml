@@ -112,7 +112,7 @@ jobs:
             docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             docker network create welcome-app-network || true
-            docker run -d --name ${{ env.CONTAINER_NAME }} --network=welcome-app-network --env-file ${{ env.ENV_DEPLOY_SCRIPT }} -p $TARGET_PORT:$TARGET_PORT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+            docker run -d --name ${{ env.CONTAINER_NAME }} --network=welcome-app-network --network-alias spring-welcome-app --env-file ${{ env.ENV_DEPLOY_SCRIPT }} -p $TARGET_PORT:$TARGET_PORT ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: The deploy has failed
         if: ${{ failure() }}
