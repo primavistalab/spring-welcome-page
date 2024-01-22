@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: 'WelcomeAppMetrics'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['spring-welcome-app:7005']
+        labels:
+          application: 'Welcome App'
