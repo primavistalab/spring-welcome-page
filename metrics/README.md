@@ -35,3 +35,23 @@ docker network create $C_LOCAL_NETWORK || true
 docker run -d --name grafana --network=$C_LOCAL_NETWORK -p $GRAFANA_PORT:$GRAFANA_PORT --mount type=bind,source=./,target=/etc/grafana/provisioning/datasources --mount type=bind,source=./data,target=/var/lib/grafana --restart unless-stopped grafana/grafana:9.5.2
 ```
 http://your_host:3000/dashboards
+
+#### mysql metrics exporter
+
+create exporter mysql user
+```mysql
+CREATE USER 'exporter'@'%' IDENTIFIED BY 'BA0F46E976' WITH MAX_USER_CONNECTIONS 3;
+GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
+```
+
+https://github.com/prometheus/mysqld_exporter/tree/main?tab=readme-ov-file#collector-flags
+
+run this script in the console:
+```shell
+C_LOCAL_NETWORK=workgroup-network
+
+docker stop mysqld-exporter || true
+docker rm mysqld-exporter || true
+docker network create $C_LOCAL_NETWORK || true
+docker run -d --name mysqld-exporter --network=$C_LOCAL_NETWORK -p 9104:9104 -e MYSQLD_EXPORTER_PASSWORD="BA0F46E976" --restart unless-stopped prom/mysqld-exporter --mysqld.address=eee-catalog-mysql:3306 --mysqld.username=exporter --collect.info_schema.innodb_metrics
+```

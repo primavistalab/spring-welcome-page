@@ -6,3 +6,17 @@ scrape_configs:
       - targets: ['spring-welcome-app:7005']
         labels:
           application: 'Welcome App'
+
+  - job_name: mysql
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - eee-catalog-mysql:3306
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        # The mysqld_exporter host:port
+        replacement: mysqld-exporter:9104
