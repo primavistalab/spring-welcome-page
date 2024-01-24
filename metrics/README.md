@@ -12,7 +12,7 @@ PROMETHEUS_PORT=9090
 docker stop prometheus || true
 docker rm prometheus || true
 docker network create $C_LOCAL_NETWORK || true
-docker run -d --name prometheus --network=$C_LOCAL_NETWORK --expose $PROMETHEUS_PORT --mount type=bind,source=./prometheus.yml,target=/etc/prometheus/prometheus.yml prom/prometheus:v2.44.0
+docker run -d --name prometheus --network=$C_LOCAL_NETWORK --expose $PROMETHEUS_PORT --mount type=bind,source=./prometheus.yml,target=/etc/prometheus/prometheus.yml --restart unless-stopped prom/prometheus:v2.44.0
 ```
 if you want to see prometheus WebUI (like targets), rerun the container and share port `-p $PROMETHEUS_PORT:$PROMETHEUS_PORT` then connect to http://your_host:9090/targets?search=
 
