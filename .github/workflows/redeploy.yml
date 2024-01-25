@@ -91,7 +91,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_PROD_HOST }}
           username: ${{ secrets.SSH_PROD_USERNAME }}
-          password: ${{ secrets.SSH_PROD_PASSWORD }}
+          key: ${{ secrets.SSH_HETZNER_KEY }}
           port: ${{ secrets.SSH_PROD_PORT }}
           source: ${{ env.ENV_SCRIPT }}
           target: ${{ env.ENV_DEPLOY_PATH }}
@@ -104,7 +104,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_PROD_HOST }}
           username: ${{ secrets.SSH_PROD_USERNAME }}
-          password: ${{ secrets.SSH_PROD_PASSWORD }}
+          key: ${{ secrets.SSH_HETZNER_KEY }}
           port: ${{ secrets.SSH_PROD_PORT }}
           script_stop: true
           script: |

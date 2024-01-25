@@ -53,5 +53,5 @@ C_LOCAL_NETWORK=workgroup-network
 docker stop mysqld-exporter || true
 docker rm mysqld-exporter || true
 docker network create $C_LOCAL_NETWORK || true
-docker run -d --name mysqld-exporter --network=$C_LOCAL_NETWORK -p 9104:9104 -e MYSQLD_EXPORTER_PASSWORD="BA0F46E976" --restart unless-stopped prom/mysqld-exporter --mysqld.address=eee-catalog-mysql:3306 --mysqld.username=exporter --collect.info_schema.innodb_metrics
+docker run -d --name mysqld-exporter --network=$C_LOCAL_NETWORK --expose 9104 -e MYSQLD_EXPORTER_PASSWORD="BA0F46E976" --restart unless-stopped prom/mysqld-exporter --mysqld.address=eee-catalog-mysql:3306 --mysqld.username=exporter --collect.info_schema.innodb_metrics
 ```
