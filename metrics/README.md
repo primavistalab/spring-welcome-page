@@ -55,3 +55,16 @@ docker rm mysqld-exporter || true
 docker network create $C_LOCAL_NETWORK || true
 docker run -d --name mysqld-exporter --network=$C_LOCAL_NETWORK --expose 9104 -e MYSQLD_EXPORTER_PASSWORD="BA0F46E976" --restart unless-stopped prom/mysqld-exporter --mysqld.address=eee-catalog-mysql:3306 --mysqld.username=exporter --collect.info_schema.innodb_metrics
 ```
+
+#### ubuntu metrics exporter
+
+https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
+
+```shell
+C_LOCAL_NETWORK=workgroup-network
+
+docker stop node-exporter || true
+docker rm node-exporter || true
+docker network create $C_LOCAL_NETWORK || true
+docker run -d --name node-exporter --network=$C_LOCAL_NETWORK --pid="host" -v "/:/host:ro,rslave" --restart unless-stopped quay.io/prometheus/node-exporter:latest --path.rootfs=/host --web.listen-address=:9100
+```
