@@ -68,3 +68,29 @@ docker rm node-exporter || true
 docker network create $C_LOCAL_NETWORK || true
 docker run -d --name node-exporter --network=$C_LOCAL_NETWORK --pid="host" -v "/:/host:ro,rslave" --restart unless-stopped quay.io/prometheus/node-exporter:latest --path.rootfs=/host --web.listen-address=:9100
 ```
+
+#### redis
+mkdir `/var/app/redis/data`
+cd `/var/app/redis`
+
+```shell
+C_LOCAL_NETWORK=workgroup-network
+
+docker stop redis-instance || true
+docker rm redis-instance || true
+docker network create $C_LOCAL_NETWORK || true
+docker run -d --name redis-instance --network=$C_LOCAL_NETWORK --expose=6379 -v "./data:/data" --restart unless-stopped redis:latest
+#web UI for redis
+docker run -d --name redis-web-ui --network=$C_LOCAL_NETWORK -p 5001:5001 --restart unless-stopped marian/rebrow
+```
+
+#### redis exporter
+
+```shell
+C_LOCAL_NETWORK=workgroup-network
+
+docker stop redis-exporter || true
+docker rm redis-exporter || true
+docker network create $C_LOCAL_NETWORK || true
+docker run -d --name redis-exporter --network=$C_LOCAL_NETWORK --expose=9121 --restart unless-stopped oliver006/redis_exporter --redis.addr=redis-instance:6379
+```

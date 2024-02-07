@@ -25,3 +25,25 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
       - targets: ['node-exporter:9100']
+
+  ## config for the multiple Redis targets that the exporter will scrape
+  - job_name: 'redis_exporter_targets'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - redis://redis-instance:6379
+    metrics_path: /scrape
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: redis-exporter:9121
+
+  ## config for scraping the exporter itself
+  - job_name: 'redis_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - redis-exporter:9121
