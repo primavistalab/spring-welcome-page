@@ -1,3 +1,6 @@
+#### prometheus exporters list
+https://prometheus.io/docs/instrumenting/exporters/
+
 #### prometheus
 
 copy file `prometheus/prometheus.yml` to `/var/app/metrics/prometheus`
@@ -44,7 +47,7 @@ CREATE USER 'exporter'@'%' IDENTIFIED BY 'BA0F46E976' WITH MAX_USER_CONNECTIONS 
 GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
 ```
 
-https://github.com/prometheus/mysqld_exporter/tree/main?tab=readme-ov-file#collector-flags
+https://github.com/prometheus/mysqld_exporter
 
 run this script in the console:
 ```shell
@@ -58,7 +61,7 @@ docker run -d --name mysqld-exporter --network=$C_LOCAL_NETWORK --expose 9104 -e
 
 #### ubuntu metrics exporter
 
-https://github.com/prometheus/node_exporter?tab=readme-ov-file#docker
+https://github.com/prometheus/node_exporter
 
 ```shell
 C_LOCAL_NETWORK=workgroup-network
@@ -85,6 +88,8 @@ docker run -d --name redis-web-ui --network=$C_LOCAL_NETWORK -p 5001:5001 --rest
 ```
 
 #### redis exporter
+
+https://github.com/oliver006/redis_exporter
 
 ```shell
 C_LOCAL_NETWORK=workgroup-network
